@@ -13,13 +13,13 @@
 								<form action="/ajax.php" method="post" id="frm-ordercall-content" class="ajax">
 									<div class="container-fluid">
 										<div class="row">
-											<div class="col-xs-24 col-sm-24 col=md-12">
+											<div class="col-xs-24 col-sm-24 col-md-12">
 												<input type="text" name="data[name]" class="required inp-name" placeholder="Ваше имя *" maxlength="20" />
 											</div>
-											<div class="col-xs-24 col-sm-24 col=md-12">
+											<div class="col-xs-24 col-sm-24 col-md-12">
 												<input type="text" name="data[phone]" class="required inp-phone" placeholder="Ваш телефон *" />
 											</div>
-											<div class="col-xs-24 col-sm-24 col=md-12">
+											<div class="col-xs-24 col-sm-24 col-md-12">
 												<input type="hidden" name="data[time]" />
 												<input type="hidden" name="formid" value="ordercall" />
 												<input type="submit" class="button-square" name="btn-ordercall" value="Получить консультацию" onclick="yaCounter43099904.reachGoal('consult'); return true;"/>
