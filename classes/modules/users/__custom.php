@@ -946,7 +946,7 @@
                     // Временно выставлено непосредственно на ID пользователя. Надо переделать на группу
                     if($user_id == '1110'){
                         
-                        list($template_menu) = def_module::loadTemplatesForMail("users/".$template, "moderator");
+                        list($template_menu) = def_module::loadTemplates("users/".$template, "moderator");
                         
                         return $template_menu;
                     }
