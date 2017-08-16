@@ -1,0 +1,37 @@
+{#
+{% if name %}
+<td width="{{ 400-level+1 }}px" style="" class="table-cell">
+    <div class="spacer" style="width: {{ 20*(level-1) }}px">&nbsp</div>
+{% if ch %}
+    <button class="expand btn btn-link">  </button>
+{% endif %}
+{{ name }}
+</td>
+{% endif %}
+#}
+{% if fields|length > 0 %}
+{% for item in used_fields %}
+<td width="" style=""  class="table-cell">
+    {% if item.editable != "false"  %}
+    <i class="small-ico i-change editable" umi-field="{{ item.field }}"></i>
+    {% endif %}
+    <div class="cell-item">
+        {% if item.type == 'bool' %}
+            {% if fields[item.field] == 1  %}
+                <img src="/images/cms/admin/mac/tree/checked.png" style="width:13px;height:13px;" alt="">
+            {% endif %}
+        {% elseif item.type in ['image','photo']  %}
+            {{ imageField(fields[item.field]) }}
+        {% else %}
+            {{ fields[item.field] }}
+        {% endif %}
+    </div>
+</td>
+{% endfor %}
+<td  class="table-cell">
+</td>
+{% else %}
+    <td class="table-cell" style="height: 100px; vertical-align: middle;" colspan="{{ (used_fields|length)+1}}">
+        <div class="cell-item" style="text-align: center;">{{ trans('js-table-control-nodata') }}</div>
+    </td>
+{% endif %}

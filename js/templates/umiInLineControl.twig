@@ -1,0 +1,26 @@
+{% if conf.type == 'bool'%}
+    <input type="checkbox" {{ val ? 'checked="checked"': '' }} />
+{% elseif conf.type == 'relation' %}
+    <select class="default" {{ conf.multiple == 'true' ? 'multiple="multiple"' :'' }} >
+        {% for option in conf.options  %}
+            <option value="{{ option }}" {{ val == option ? ' selected="selected" ' : '' }}>{{ option }}</option>
+        {% endfor %}
+    </select>
+{% elseif conf.type == 'image' %}
+    <div class="layout-row-icon">
+        <div class="layout-col-control">
+            <input type="text" class="default" value="{{ val }}"  id="inline_edit_{{ id }}" umi-type="{{ conf.type }}"/>
+        </div>
+        <div class="layout-col-icon">
+            <a class="icon-action"><i class="small-ico i-choose"></i></a>
+        </div>
+    </div>
+{% elseif  conf.type  == 'date'%}
+    <input type="text" class="default" value="{{ val }}" placeholder="dd.mm.yyyy" id="inline_edit_{{ id }}" umi-type="{{ conf.type }}"/>
+{% elseif  conf.type  == 'time'%}
+    <input type="text" class="default" value="{{ val }}" placeholder="hh:mm" id="inline_edit_{{ id }}" umi-type="{{ conf.type }}"/>
+{% elseif  conf.type  == 'datetime'%}
+    <input type="text" class="default" value="{{ val }}" placeholder="dd.mm.yyyy hh:mm" id="inline_edit_{{ id }}" umi-type="{{ conf.type }}"/>
+{% else %}
+    <input type="text" class="default" value="{{ val }}" id="inline_edit_{{ id }}" umi-type="{{ conf.type }}"/>
+{% endif %}
