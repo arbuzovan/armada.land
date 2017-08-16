@@ -942,8 +942,9 @@
                     $user_object = umiObjectsCollection::getInstance()->getObject($user_id);
                     // Получаем группы, в которую входит пользователь
                     $groups = $user_object->getValue("groups");
-
-                    if(in_array(1110,$groups) || $user_id == '1110'){
+                    
+                    // Временно выставлено непосредственно на ID пользователя. Надо переделать на группу
+                    if($user_id == '1110'){
                         
                         list($template_menu) = def_module::loadTemplatesForMail("users/".$template, "moderator");
                         
