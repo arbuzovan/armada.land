@@ -88,5 +88,14 @@
             return;
         }
         
+        /**
+         * Функция для ввода показний счетчиков по участкам
+         */
+        public function set_meters(){
+            list($page_template) = def_module::loadTemplates("data/set_metters", "page_template");
+            $page_arr = array();
+            return def_module::parseTemplate($page_template, $page_arr);
+        }
+        
 	};
 ?>
