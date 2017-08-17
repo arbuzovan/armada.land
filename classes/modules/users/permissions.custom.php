@@ -15,6 +15,7 @@
                     'getStaffMenu',
                     'tarifs',
                     'getTarifs',
+                    'getEditTarifButton'
                 ),
 		'registrate' => Array('registration', 'restorep', 'saving')
 	);

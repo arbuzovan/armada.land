@@ -935,7 +935,7 @@
 
                 // Показ меню для сотрудников
                 public function getStaffMenu($template = 'accountMenuStaff'){
-                    // Получаем id текущего пользователя, если Вы передадите id Гостя, то ничего не увидите, т.к. Гость не имеет группы.
+                    // Получаем id текущего пользователя
                     $user_id = $this->user_id;
                     
                     // Получаем объект пользователя
@@ -951,6 +951,34 @@
                         return $template_menu;
                     }
 
+                    return;
+                }
+                
+                /**
+                 * функция показывает или НЕ показывает кнопку для редактирования тарифа
+                 * @param int $editatbleObjectId ID переданного тарифа. Именно его ID пойдет в кнопку для использования
+                 */
+                public function getEditTarifButton($editatbleObjectId = false){
+                    if(!$editatbleObjectId){
+                        return;
+                    }
+                    // Получаем id текущего пользователя
+                    $user_id = $this->user_id;
+                    
+                    // Получаем объект пользователя
+                    $user_object = umiObjectsCollection::getInstance()->getObject($user_id);
+                    // Получаем группы, в которую входит пользователь
+                    $groups = $user_object->getValue("groups");
+                    
+                    // Временно выставлено непосредственно на ID пользователя. Надо переделать на группу
+                    if($user_id == '1110'){
+                        list($editBtn) = def_module::loadTemplates("users/profile/tarifs.tpl", "editTarifButton");
+			
+                        $attributes = Array();
+			$attributes['attribute:id'] = $editatbleObjectId;
+
+			return def_module::parseTemplate($editBtn, $attributes);
+                    }
                     return;
                 }
                 
