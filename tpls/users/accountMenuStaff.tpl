@@ -16,7 +16,7 @@ $FORMS['moderator'] = <<<END
                 <div class="col-xs-20 left">
                     <ul>
                         <li%custom getProfileActiveClass('meters')%><a href="/users//">Показания счетчиков</a></li>
-                        <li%custom getProfileActiveClass('meters')%><a href="/users/tarifs/">Тарифы на услуги</a></li>
+                        <li%custom getProfileActiveClass('tarifs')%><a href="/users/tarifs/">Тарифы на услуги</a></li>
                     </ul>
                 </div>
             </div>
