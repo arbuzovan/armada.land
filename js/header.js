@@ -36,6 +36,22 @@ function redraw() {
 	$('#content .object-view .description .right .object-map-spoiler').css('width', $('#content .object-view .description .right').width() + 'px');
 }
 
+/**
+ * Функция переключает состояние кнопки
+ * @param {type} btnObj Объект кнопки
+ */
+function toggleEditBtn(btnObj) {
+    if($(btnObj).hasClass('editButton')){
+        $(btnObj).removeClass('editButton');
+        $(btnObj).addClass('saveButton');
+        $(btnObj).html('Сохранить');   
+    }else{
+        $(btnObj).removeClass('saveButton');
+        $(btnObj).addClass('editButton');
+        $(btnObj).html('Редактировать');
+    }
+}
+
 
 /* -------- Document ready -------- */
 
@@ -227,9 +243,84 @@ $(document).ready(function(){
 	$('[data-target="#modal-genplan"]').click(function(){
 		if (typeof ymaps != "undefined")ymaps.ready(Map.init);
 	});
+        
+        $(document).on('click','.tarifEditBtn', function(){
+            var objId = $(this).attr('rel');
+            var btnObj = $(this);
+            var paramArray = {};
+            
+            if($(this).hasClass('editButton')){    
+                paramArray.id = objId;
+                var action = 'GET';
+            }else{
+                var action = 'POST';
+                paramArray.id = objId;
+                paramArray.newValue = $('input[rel='+objId+']').val();
+            }
+            
+            $.ajax({
+                url:'/data/crudTarif/',
+                method:action,
+                data:paramArray,
+                dataType: 'json',
+                error: function(){
+                    alert('В процессе соединения с сервером произошла ошибка.');
+                },
+                success: function(answer){
+                    switch(answer.status){
+                        case 'error':
+                            alert(answer.message);
+                            break;
+                        default:
+                            switch(answer.action){
+                                case 'GET':
+                                    $('td.tarifCol[rel='+objId+']').html('<input type="text" value="'+answer.value+'" rel="'+objId+'" />');
+                                    toggleEditBtn(btnObj);
+                                    break;
+                                case 'UPDATE_DATA':
+                                    $('td.tarifCol[rel='+objId+']').html(answer.value);
+                                    toggleEditBtn(btnObj);
+                                    break;
+                                default:
+                                    toggleEditBtn(btnObj);
+                                    break;
+                            }
+                            break;
+                    }
+                },
+                complete: function() {
+                  console.log('request_complete');
+                }
+            });
+            return false;
+        });
 	
 });
 
+
+/*
+ $(document).on('click', '.button_buy', function() {
+  var rel = $(this).attr('rel');
+  toggleBuyBtn(this);
+  $.ajax({
+    url: 'somePath',
+    method: 'POST',
+    data: {
+      id: $(rel)
+    },
+    dataType: 'json',
+    success: function() {
+      console.log('request_success');
+    },
+    error: function() {
+      console.log('request_error');
+    },
+    complete: function() {
+      console.log('request_complete');
+    }
+  })
+});
+ */
 
 /* -------- Window resize -------- */
 
