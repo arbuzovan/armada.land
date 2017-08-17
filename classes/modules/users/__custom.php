@@ -850,11 +850,14 @@
 
 					if($payment instanceof umiObject) {
 						$totalBegin = self::getUserBalance($user_id, 'default', true);
-						$payment->setValue('saldo_na_nachalo', $totalBegin);
+                                                $user_object = umiObjectsCollection::getInstance()->getObject($user_id);
+						
+                                                $payment->setValue('saldo_na_nachalo', $totalBegin);
 						$payment->setValue('summa_platezha', $amount);
 						$payment->setValue('saldo_na_konec', $totalBegin - $amount);
 						$payment->setValue('date', time());
 						$payment->setValue('sobstvennik', $user_id);
+						$payment->setValue('area_number', $user_object->area_number);
 						$payment->commit();
 
 					}
