@@ -633,7 +633,7 @@
 				return def_module::parseTemplate($template_block_empty, $block_arr);
 			}
 		}
-
+                
 		public function common() {
 
 			$user_id = $this->user_id;
