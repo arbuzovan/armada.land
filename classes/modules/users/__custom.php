@@ -480,10 +480,10 @@
 					'soderzhanie' 			=> 'Содержание', 
 					'ohrana' 				=> 'Охрана', 
 					'vyvoz' 				=> 'Вывоз ТБО', 
-					'elenergiya_den' 		=> 'Эл.энергия (день)', 
-					'elenergiya_noch' 		=> 'Эл.энергия (ночь)', 
-					'elenergiya_mop_den' 	=> 'Эл.энергия МОП (день)', 
-					'elenergiya_mop_noch' 	=> 'Эл.энергия МОП (ночь)', 
+					'elenergiya_den' 		=> 'Эл.энергия', 
+//					'elenergiya_noch' 		=> 'Эл.энергия (ночь)', 
+					'elenergiya_mop_den' 	=> 'Эл.энергия МОП', 
+//					'elenergiya_mop_noch' 	=> 'Эл.энергия МОП (ночь)', 
 					'uslugi_po_zayavkam' 	=> 'Услуги по заявкам', 
 					'peni' 					=> 'Пени', 
 					'uslbanka' 				=> 'Усл.банка'
@@ -692,6 +692,9 @@
                     
                     foreach($tarifs as $id => $tarifObject){
                         $tarifObject = $objectsCollection->getObject($id);
+                        if($tarifObject->hidden){
+                            continue;
+                        }
                         $tarifs_obects[$tarifObject->view_order] = $tarifObject;
                     }
                     
@@ -772,7 +775,7 @@
 			$sel->where('sobstvennik')->equals($user_id);
 
 			$totalSumma = 0;
-			$field_key = Array('upravlenie', 'soderzhanie', 'ohrana', 'vyvoz', 'elenergiya_den', 'elenergiya_noch', 'elenergiya_mop_den', 'elenergiya_mop_noch', 'uslugi_po_zayavkam', 'peni', 'uslbanka');
+			$field_key = Array('upravlenie', 'soderzhanie', 'ohrana', 'vyvoz', 'elenergiya_den', /*'elenergiya_noch',*/ 'elenergiya_mop_den', /*'elenergiya_mop_noch',*/ 'uslugi_po_zayavkam', 'peni', 'uslbanka');
 
 			if ($sel->length > 0) {
 				
