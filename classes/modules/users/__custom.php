@@ -704,7 +704,7 @@
                         $tarif['attribute:id'] = $tarifObject->id;
                         $tarif['attribute:number'] = $key;
                         $tarif['attribute:name'] = $tarifObject->name;
-                        $tarif['attribute:tarif'] = number_format($tarifObject->tarif, 2, ',', ' ');
+                        $tarif['attribute:tarif'] = number_format($tarifObject->tarif, 2, '.', ' ');
                         $tarifs_arr[] = def_module::parseTemplate($tarifs_grid_line, $tarif);
                         
                     }
