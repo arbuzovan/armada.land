@@ -294,6 +294,16 @@ $(document).ready(function(){
             });
             return false;
         });
+        
+        $(document).on('click','.addMetersBtn',function(){
+            var lastNum = $('tr.line').last().find('td').first().text() - 0;
+            var addMeterRow = $('tr.line').last().clone();
+
+            $(addMeterRow).find('td').html('');
+            $(addMeterRow).find('td').first().html(lastNum+1);
+            $(addMeterRow).appendTo('.table');
+            return false;   
+        });
 	
 });
 
