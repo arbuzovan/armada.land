@@ -296,12 +296,31 @@ $(document).ready(function(){
         });
         
         $(document).on('click','.addMetersBtn',function(){
-            var lastNum = $('tr.line').last().find('td').first().text() - 0;
-            var addMeterRow = $('tr.line').last().clone();
+            
+            /* Формирование select'a с выбором месяца */
+            var month = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];   // Массив месяцов
+            var curMonthIndex = new Date().getMonth();
+            
+            var select = $('<select class="month"><option val="0"></option></select>');
+            $(month).each(function(index, element){
+               var selected = '';
+               if(index == curMonthIndex){
+                   selected = 'selected';
+               }
+               monthNum = index++;
+               var option = $('<option value="'+monthNum+'" '+selected+'>'+element+'</option>');
+               $(option).appendTo(select);
+            });
+            /* Формирование select'a с выбором месяца */
+            
+            var lastNum = $('tr.line').last().find('td').first().text() - 0;    // Берем последний индекс из таблицы
+            var addMeterRow = $('tr.line').last().clone();                      // Клонируем последниюю строку из таблицы
 
-            $(addMeterRow).find('td').html('');
-            $(addMeterRow).find('td').first().html(lastNum+1);
-            $(addMeterRow).appendTo('.table');
+            $(addMeterRow).find('td').html('');                                 // Очищаем все ячейки
+            $(addMeterRow).find('td').first().html(lastNum+1);                  // Добавляем индекс
+            $(addMeterRow).find('td').eq(2).html(select);
+            
+            $(addMeterRow).appendTo('.table');                                  // Созданную строку добавляем к таблице
             return false;   
         });
 	
