@@ -3,7 +3,7 @@
 $FORMS = Array();
 
 $FORMS['page_template'] = <<<END
-%users getMeters(%user_id%)%
+    %data crudMeters('meters', 'GET')%
 END;
 
 ?>

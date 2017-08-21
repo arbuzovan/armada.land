@@ -52,6 +52,24 @@ function toggleEditBtn(btnObj) {
     }
 }
 
+/**
+ * Функция переключает состояние кнопки
+ * @param {type} btnObj Объект кнопки
+ */
+function toggleAddMeterBtn(btnObj) {
+    if($(btnObj).hasClass('addMetersBtn')){
+        $(btnObj).removeClass('addMetersBtn');
+        $(btnObj).addClass('saveMeterButton');
+        $(btnObj).html('Сохранить показания');   
+    }else{
+        $(btnObj).removeClass('saveMeterButton');
+        $(btnObj).addClass('addMetersBtn');
+        $(btnObj).html('Добавить показания');
+    }
+}
+
+
+
 
 /* -------- Document ready -------- */
 
@@ -296,12 +314,12 @@ $(document).ready(function(){
         });
         
         $(document).on('click','.addMetersBtn',function(){
-            
+            toggleAddMeterBtn(this);
             /* Формирование select'a с выбором месяца */
             var month = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];   // Массив месяцов
             var curMonthIndex = new Date().getMonth();
             
-            var select = $('<select class="month"><option val="0"></option></select>');
+            var MonthSelect = $('<select class="month"><option val="0"></option></select>');
             $(month).each(function(index, element){
                var selected = '';
                if(index == curMonthIndex){
@@ -309,19 +327,104 @@ $(document).ready(function(){
                }
                monthNum = index++;
                var option = $('<option value="'+monthNum+'" '+selected+'>'+element+'</option>');
-               $(option).appendTo(select);
+               $(option).appendTo(MonthSelect);
             });
             /* Формирование select'a с выбором месяца */
             
+            /* Формирование списка участков */
+            var areaSelect = $('<select class="areaNum"></select>');
+            $.ajax({
+                url:'/data/getAreaNumbers/',
+                dataType: 'json',
+                //async: false,
+                success: function(answer){
+                    for(area_num in answer){
+                        var option = $('<option value="'+area_num+'">'+area_num+'</option>');
+                        $(option).appendTo(areaSelect);                        
+                    }
+                }
+            });
+            /* Формирование списка участков */
+            
+            /* Обработка ввода показаний счетчиков */
+            $(document).on('change','.curMeterVal, .areaNum',function(){
+                var area_num = $('.areaNum').val();
+                var currentMeter = $('.curMeterVal').val();
+
+                $.ajax({
+                    url:'/data/getPrevMetersAjax/',
+                    data:{
+                        'area_number':area_num,
+                        'currentMeter':currentMeter
+                    },
+                    dataType: 'json',
+                    success: function(answer){
+                        return false;
+                    }
+                });
+            });
+            /* Обработка ввода показаний счетчиков */
+            
+            /* Формирование поля ввода для текущих показаний*/
+            var inputMeter = $('<input class="curMeterVal" type="text" />');
+            /* Формирование поля ввода для текущих показаний*/
+            
             var lastNum = $('tr.line').last().find('td').first().text() - 0;    // Берем последний индекс из таблицы
             var addMeterRow = $('tr.line').last().clone();                      // Клонируем последниюю строку из таблицы
+//            var tarif = false;
+//            
+//            $.ajax({
+//                url:'/data/getTarif/',
+//                dataType: 'json',
+//                data:{
+//                    'tarifName':'elenergiya_den',
+//                    'json':true
+//                },
+//                success: function(answer){
+//                    tarif = answer;
+//                    $(addMeterRow).find('td').eq(3).html(inputMeter);
+//                }
+//            });
 
             $(addMeterRow).find('td').html('');                                 // Очищаем все ячейки
             $(addMeterRow).find('td').first().html(lastNum+1);                  // Добавляем индекс
-            $(addMeterRow).find('td').eq(2).html(select);
+            $(addMeterRow).find('td').eq(1).html(areaSelect);                   // Добавляем выбор участка
+            $(addMeterRow).find('td').eq(2).html(MonthSelect);                  // Добавляем выбор месяца
+            $(addMeterRow).find('td').eq(3).html(inputMeter);                   // Добавляем поле ввода текущих показаний
             
             $(addMeterRow).appendTo('.table');                                  // Созданную строку добавляем к таблице
             return false;   
+        });
+        
+        $(document).on('click','.saveMeterButton',function(){
+            var area_num = $('.areaNum').val();
+            var currentMeter = $('.curMeterVal').val();
+            
+            if(!area_num || area_num == 0){
+                return false;
+            }
+            
+            if(!currentMeter || currentMeter == 0 || currentMeter == ''){
+                return false;
+            }
+            
+            $.ajax({
+                url:'/data/crudMeters/',
+                data:{
+                    'area_number':area_num,
+                    'currentMeter':currentMeter
+                },
+                method: 'POST',
+                dataType: 'json',
+                success: function(answer){
+                    if(answer.status == 'ok'){
+                        document.location.reload();
+                    }
+                }
+            });
+            
+            toggleAddMeterBtn(this);
+            return false;
         });
 	
 });

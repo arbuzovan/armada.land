@@ -553,6 +553,13 @@
 
 			}
 		}
+                
+                /**
+                 * Генерировать квитацию
+                 */
+                public function genReceipts(){
+                    $guideId = 125;
+                }
 
 		public function getMeters($user_id = false, $template = "default", $limit = 15, $offset = 0) {
 

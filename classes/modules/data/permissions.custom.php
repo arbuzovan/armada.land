@@ -2,7 +2,11 @@
     $permissions = Array(
         'main' => Array(
             'crudTarif',
-            'set_meters'
+            'set_meters',
+            'crudMeters',
+            'getPrevMeters',
+            'getPrevMetersAjax',
+            'getAreaNumbers'
         )
     );
 ?>

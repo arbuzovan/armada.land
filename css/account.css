@@ -207,3 +207,11 @@
 	font-size: 20px;
 	font-weight: 700;
 }
+
+.saveMeterButton{
+    background: #2A72A8;
+}
+
+.addMetersBtn{
+    background: #5ebd73;
+}
